@@ -1,0 +1,36 @@
+[
+  {
+    "place_id": 142515684,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "node",
+    "osm_id": 3395503728,
+    "lat": "48.1761286",
+    "lon": "11.8085956",
+    "class": "place",
+    "type": "house",
+    "place_rank": 30,
+    "importance": 9.99999999995449e-06,
+    "addresstype": "place",
+    "name": "",
+    "display_name": "3, Geranienweg, Zauberwinkel, Poing, Landkreis Ebersberg, Bayern, 85586, Deutschland",
+    "address": {
+      "house_number": "3",
+      "road": "Geranienweg",
+      "neighbourhood": "Zauberwinkel",
+      "town": "Poing",
+      "municipality": "Poing",
+      "county": "Landkreis Ebersberg",
+      "state": "Bayern",
+      "ISO3166-2-lvl4": "DE-BY",
+      "postcode": "85586",
+      "country": "Deutschland",
+      "country_code": "de"
+    },
+    "boundingbox": [
+      "48.1760786",
+      "48.1761786",
+      "11.8085456",
+      "11.8086456"
+    ]
+  }
+]
