@@ -6,21 +6,20 @@ import java.util.List;
 
 public class Course {
 
-    @SerializedName("id")
+    @SerializedName("course_id")
     private Integer id;
     @SerializedName("name")
     private String name;
-    @SerializedName("shortDescription")
+    @SerializedName("short_description")
     private String shortDescription;
     @SerializedName("dates")
     private List<String> dates;
     @SerializedName("place")
     private String place;
-    @SerializedName("maxContestants")
+    @SerializedName("max_contestants")
     private Integer maxContestants;
     @SerializedName("requirements")
     private List<String> requirements;
-
     @SerializedName("lat")
     private String lat;
 

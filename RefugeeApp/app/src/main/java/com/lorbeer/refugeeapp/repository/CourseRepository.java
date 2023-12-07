@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -35,7 +38,7 @@ public class CourseRepository {
     private static CourseRepository INSTANCE;
     private static OkHttpClient client;
 
-    private static String REQUEST_URL = "url";
+    private static String REQUEST_URL = "http://10.0.2.2:8080/data";
 
     private static String GEOCODE_URL = "http://nominatim.openstreetmap.org/search?q=%s&format=json&addressdetails=1";
 
@@ -48,23 +51,28 @@ public class CourseRepository {
     }
 
     public MutableLiveData<List<Course>> getAllCourses() {
-        Log.v(TAG, "getAllCoursesCalles ");
-        //  Request request = new Request.Builder().url(REQUEST_URL).get().build();
+        Log.v(TAG, "getAllCourses ");
+        final Request request = new Request.Builder().url(REQUEST_URL + "/allCourses").get().build();
         final MutableLiveData<List<Course>> allCourses = new MutableLiveData<>();
-       /* try (Response response = client.newCall(request).execute()) {
-            String data = response.body().string();
-            Log.v(TAG, "statuscode " + response.code());
-            Log.v(TAG, data);
-            final Type listType = new TypeToken<ArrayList<Course>>() {
-            }.getType();
-            List<Course> courses = new Gson().fromJson(data, listType);
-            allCourses.setValue(courses);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
-        Course course = new Course();
-        course.setName("testname");
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
 
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String data = response.body().string();
+                    final Type listType = new TypeToken<ArrayList<Course>>() {
+                    }.getType();
+                    List<Course> courses = new Gson().fromJson(data, listType);
+                    allCourses.postValue(courses);
+                } else {
+                    Log.e(TAG, "response code " + response.code());
+                }
+            }
+        });
         return allCourses;
 
     }
@@ -81,22 +89,22 @@ public class CourseRepository {
 
         final RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
 
-        final Request request = new Request.Builder().url(REQUEST_URL).post(body).build();
+        final Request request = new Request.Builder().url(REQUEST_URL + "/createCourse").post(body).build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e(TAG, e.getMessage());
-                success.setValue(false);
+                success.postValue(false);
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    success.setValue(true);
+                    success.postValue(true);
                 } else {
                     Log.e(TAG, "response code " + response.code());
-                    success.setValue(false);
+                    success.postValue(false);
                 }
             }
         });
@@ -104,11 +112,10 @@ public class CourseRepository {
         return success;
     }
 
-    public MutableLiveData<List<Contestants>> getContestantsForCourse(Integer id) {
-        final MutableLiveData<List<Contestants>> contestants = new MutableLiveData<>();
-
-        final Request request = new Request.Builder().url(REQUEST_URL + "/" + id).get().build();
-
+    public MutableLiveData<Course> getCourseByName(String name) {
+        Log.v(TAG, "getCourseByName " + name);
+        final Request request = new Request.Builder().url(REQUEST_URL + "/getCoursesByName/" + name).get().build();
+        final MutableLiveData<Course> course = new MutableLiveData<>();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -119,18 +126,15 @@ public class CourseRepository {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String data = response.body().string();
-                    final Type listType = new TypeToken<ArrayList<Course>>() {
-                    }.getType();
-                    List<Contestants> cons = new Gson().fromJson(data, listType);
-                    contestants.setValue(cons);
+
+                    Course c = new Gson().fromJson(data, Course.class);
+                    course.postValue(c);
                 } else {
                     Log.e(TAG, "response code " + response.code());
-
                 }
             }
         });
-
-        return contestants;
+        return course;
     }
 
     private Course geocodeAddress(Course course) {

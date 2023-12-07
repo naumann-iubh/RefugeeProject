@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Contestants {
 
-    @SerializedName("id")
+    @SerializedName("contestants_id")
     private Integer id;
     @SerializedName("name")
     private String name;
@@ -12,7 +12,6 @@ public class Contestants {
     @SerializedName("email")
     private String email;
 
-    @SerializedName("id")
     public Integer getId() {
         return id;
     }

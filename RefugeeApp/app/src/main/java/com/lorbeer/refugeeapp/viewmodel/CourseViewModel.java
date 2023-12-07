@@ -17,8 +17,9 @@ public class CourseViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> createCourse;
 
-    private MutableLiveData<List<Contestants>> contestantsForCourse;
     private CourseRepository courseRepository;
+
+    private MutableLiveData<Course> courseByName;
 
     public void queryAllCourses() {
         courseRepository = CourseRepository.getINSTANCE();
@@ -38,16 +39,13 @@ public class CourseViewModel extends ViewModel {
         return createCourse;
     }
 
-    public void getContestantsForCourse(Integer id) {
+    public void getCourseByName(String name) {
         courseRepository = CourseRepository.getINSTANCE();
-        contestantsForCourse = courseRepository.getContestantsForCourse(id);
+        courseByName = courseRepository.getCourseByName(name);
     }
 
-    public LiveData<List<Contestants>> getContestantsForCourses() {
-        return contestantsForCourse;
+    public LiveData<Course> getCourseByName() {
+        return courseByName;
     }
-
-
-
 
 }
