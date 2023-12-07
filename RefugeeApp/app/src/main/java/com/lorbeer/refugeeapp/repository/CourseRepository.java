@@ -9,6 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lorbeer.refugeeapp.R;
+import com.lorbeer.refugeeapp.domain.Contestants;
 import com.lorbeer.refugeeapp.domain.Course;
 import com.lorbeer.refugeeapp.domain.GeocoderResponse;
 
@@ -102,6 +104,35 @@ public class CourseRepository {
         return success;
     }
 
+    public MutableLiveData<List<Contestants>> getContestantsForCourse(Integer id) {
+        final MutableLiveData<List<Contestants>> contestants = new MutableLiveData<>();
+
+        final Request request = new Request.Builder().url(REQUEST_URL + "/" + id).get().build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String data = response.body().string();
+                    final Type listType = new TypeToken<ArrayList<Course>>() {
+                    }.getType();
+                    List<Contestants> cons = new Gson().fromJson(data, listType);
+                    contestants.setValue(cons);
+                } else {
+                    Log.e(TAG, "response code " + response.code());
+
+                }
+            }
+        });
+
+        return contestants;
+    }
+
     private Course geocodeAddress(Course course) {
         final String requestUrl = String.format(GEOCODE_URL, course.getPlace());
 
@@ -132,4 +163,6 @@ public class CourseRepository {
         return course;
 
     }
+
+
 }

@@ -6,10 +6,8 @@ URL to connect to local machine: 10.0.2.2
 
 ### Anbieterseite
 
-[x][] Kurse sollen alle wichtigen Daten wie Name, Kurzbeschreibung, Termine, Ort, max. Teilnehmerzahl, Teilnahmevoraussetzungen, lat, lon etc. erfasst werden können.
-[] App holt sich über OSM die geolocation (http://nominatim.openstreetmap.org/search?q=Geranienweg 3 Poing&format=json&addressdetails=1)
-[x][] Übersicht über die aktuell eingeschriebenen Asylbewerber
-
+[x][] Kurse sollen alle wichtigen Daten wie Name, Kurzbeschreibung, Termine, Ort, max. Teilnehmerzahl, Teilnahmevoraussetzungen etc. erfasst werden können.
+[x][] Übersicht über die aktuell eingeschriebenen Asylbewerbe
 
 ### Teilnehmerseite
 [][] Suchfunktion
@@ -19,7 +17,7 @@ URL to connect to local machine: 10.0.2.2
 [][] Die Asylbewerber:innen können die Suchergebnisse nach Nähe zum aktuellen Standort sortieren
 [][] Asylbewerber:innen sollen sich an Kursen anmelden können. 
     [x][] Per App
-    [][] Per QrCode
+    [x][] Per QrCode
 
 ## libs
 http: https://square.github.io/okhttp/
@@ -31,6 +29,11 @@ https://betterprogramming.pub/create-an-app-that-uses-livedata-and-viewmodel-in-
 https://codingwithmitch.com/blog/getting-started-with-mvvm-android/
 
 
+https://www.baeldung.com/jpa-many-to-many#many-to-many-with-a-new-entity
+
+ZXing
+https://reintech.io/blog/implementing-android-app-qr-code-scanner
+
 ## Database tables
 
 
@@ -38,12 +41,12 @@ CREATE TABLE IF NOT EXISTS courses (
     course_id serial PRIMARY KEY,
     name VARCHAR (50) UNIQUE NOT NULL,
     short_description TEXT,
-    dates TIMESTAMP [] NOT NULL,
+    dates TEXT [] NOT NULL,
     place VARCHAR (50) NOT NULL,
     max_contestants INT NOT NULL,
     requirements text [],
-    lat VARCHAR (50),
-    lon VARCHAR (50)
+    lat VARCHAR(50) NOT NULL,
+    lon VARCHAR(50) NOT NULL
 );
 
 TIMESTAMP format : 1999-01-08 04:05:06
@@ -63,6 +66,15 @@ CREATE TABLE IF NOT EXISTS courses_contestants (
     CONSTRAINT course_product_id PRIMARY KEY (course_id, contestants_id)  
 );
 
+1 to many for course and contestants
+
+CREATE TABLE IF NOT EXISTS registration (
+    registration_id serial PRIMARY KEY,
+    registered_at VARCHAR(50),
+    course_id INT NOT NULL REFERENCES courses(course_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    contestants_id INT NOT NULL REFERENCES contestants(contestants_id) ON UPDATE CASCADE
+);
+
 ## Aufbau
 - PostgreSql Datenbank, die alle Informationen hält
 - Abstraktion über einen RestService vor der Datenbank, händelt alle Datenbank transaktionen
@@ -72,4 +84,3 @@ CREATE TABLE IF NOT EXISTS courses_contestants (
 - Für Android application gibt es keine offizielle Postgres Driver Untersützung
 - Daher kleiner RestService der Schnittstellen für die Apps anbietet diese in CRUD Operation an die DB sendet
 - Es wird Docker als Werkzeug verwendet, um Datenbank und RestService in eigenen, leicht verwaltbaren Container zu administrieren 
-- Um Suchergebnisse mit einem Standort verknüpfen zu können, werden mithilfe der Addresse und Nominatim geocoder API zusätzlich lat lon gespeichert.
