@@ -1,0 +1,12 @@
+[
+  {
+    "contestants_id": 1,
+    "name": "Hans Wurst",
+    "email": "hans.wurst@mail.de"
+  },
+  {
+    "contestants_id": 2,
+    "name": "Peter lustig",
+    "email": "lustig.peter@gmail.com"
+  }
+]

@@ -8,6 +8,26 @@ import java.util.List;
 
 public class GeocoderResponse implements Serializable
 {
+    @Override
+    public String toString() {
+        return "GeocoderResponse{" +
+                "placeId=" + placeId +
+                ", licence='" + licence + '\'' +
+                ", osmType='" + osmType + '\'' +
+                ", osmId=" + osmId +
+                ", lat='" + lat + '\'' +
+                ", lon='" + lon + '\'' +
+                ", _class='" + _class + '\'' +
+                ", type='" + type + '\'' +
+                ", placeRank=" + placeRank +
+                ", importance=" + importance +
+                ", addresstype='" + addresstype + '\'' +
+                ", name='" + name + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", address=" + address +
+                ", boundingbox=" + boundingbox +
+                '}';
+    }
 
     @SerializedName("place_id")
     @Expose

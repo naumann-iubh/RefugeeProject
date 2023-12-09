@@ -1,5 +1,7 @@
 package com.lorbeer.refugeeapp.viewmodel;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -20,27 +22,27 @@ public class ContestantsViewModel extends ViewModel {
 
 
 
-    public void queryAllContestants() {
+    public void queryAllContestants(Context context) {
         contestantsRepository = ContestantsRepository.getINSTANCE();
-        allContestants = contestantsRepository.getAllContestants();
+        allContestants = contestantsRepository.getAllContestants(context);
     }
 
     public LiveData<List<Contestants>> getAllContestants() {
         return allContestants;
     }
 
-    public void queryContestantByMail(String email) {
+    public void queryContestantByMail(String email, Context context) {
         contestantsRepository = ContestantsRepository.getINSTANCE();
-        contestantsByMail = contestantsRepository.getContestantbyMail(email);
+        contestantsByMail = contestantsRepository.getContestantbyMail(email,context);
     }
 
     public LiveData<Contestants> getContestantByMail() {
         return contestantsByMail;
     }
 
-    public void queryContestantsForCourses(Integer id) {
+    public void queryContestantsForCourses(Integer id, Context context) {
         contestantsRepository = ContestantsRepository.getINSTANCE();
-        contestantsForCourse = contestantsRepository.getContestantsForCourse(id);
+        contestantsForCourse = contestantsRepository.getContestantsForCourse(id, context);
     }
 
     public LiveData<List<Contestants>> getContestantsForCourses() {

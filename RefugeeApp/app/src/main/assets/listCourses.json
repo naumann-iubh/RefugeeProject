@@ -1,0 +1,19 @@
+[
+  {
+    "course_id": 1,
+    "name": "grammatikkurs",
+    "short_description": "Hier wird genauer auf die Grammatik eingegangen",
+    "dates": [
+      "2024-01-08 04:05:06",
+      "2023-01-08 08:05:06"
+    ],
+    "place": "München VHS",
+    "max_contestants": 6,
+    "requirements": [
+      "Deutsch für Anfänger abgeschlossen",
+      "Zertifikat 234c"
+    ],
+    "lat": "49.564645",
+    "lon": "11.45646"
+  }
+]

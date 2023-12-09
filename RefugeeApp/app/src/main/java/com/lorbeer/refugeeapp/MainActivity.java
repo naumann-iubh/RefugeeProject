@@ -1,33 +1,32 @@
 package com.lorbeer.refugeeapp;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
-import android.view.View;
-
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.lorbeer.refugeeapp.databinding.ActivityMainBinding;
 import com.lorbeer.refugeeapp.domain.Course;
+import com.lorbeer.refugeeapp.view.AddCourseActivity;
+import com.lorbeer.refugeeapp.view.ContestantsForCourseActivity;
 import com.lorbeer.refugeeapp.viewmodel.CourseViewModel;
 
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+
+    private static String COURSE_IDENTIFIER = "COURSE_IDENTIFIER";
+    private static String COURSE_NAME = "COURSE_NAME";
     private ActivityMainBinding binding;
 
     private CourseViewModel courseViewModel;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         showSpinner();
 
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
-        courseViewModel.queryAllCourses();
+        courseViewModel.queryAllCourses(getApplicationContext());
 
         courseViewModel.getAllCourses().observe(this, new Observer<List<Course>>() {
             @Override
@@ -67,13 +66,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding.simpleListView.setOnItemClickListener((parent, view, position, id) -> {
+            final Course course = courseViewModel.getAllCourses().getValue().get(position);
+            final Intent intent = new Intent(MainActivity.this, ContestantsForCourseActivity.class);
+            intent.putExtra(COURSE_IDENTIFIER, course.getId());
+            intent.putExtra(COURSE_NAME, course.getName());
+            startActivity(intent);
+
+        });
+
 
         binding.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.add)
-                        .setAction("Action", null).show();
+               final Intent intent = new Intent(MainActivity.this, AddCourseActivity.class);
+               startActivity(intent);
             }
         });
     }

@@ -1,11 +1,12 @@
 package com.lorbeer.refugeeapp.viewmodel;
 
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.lorbeer.refugeeapp.domain.Contestants;
 import com.lorbeer.refugeeapp.domain.Course;
 import com.lorbeer.refugeeapp.repository.CourseRepository;
 
@@ -21,9 +22,9 @@ public class CourseViewModel extends ViewModel {
 
     private MutableLiveData<Course> courseByName;
 
-    public void queryAllCourses() {
+    public void queryAllCourses(Context context) {
         courseRepository = CourseRepository.getINSTANCE();
-        allCourses = courseRepository.getAllCourses();
+        allCourses = courseRepository.getAllCourses(context);
     }
 
     public LiveData<List<Course>> getAllCourses() {
@@ -39,9 +40,9 @@ public class CourseViewModel extends ViewModel {
         return createCourse;
     }
 
-    public void getCourseByName(String name) {
+    public void getCourseByName(String name,Context context) {
         courseRepository = CourseRepository.getINSTANCE();
-        courseByName = courseRepository.getCourseByName(name);
+        courseByName = courseRepository.getCourseByName(name, context);
     }
 
     public LiveData<Course> getCourseByName() {
