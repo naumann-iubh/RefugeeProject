@@ -2,7 +2,6 @@ package com.lorbeer.refugeeapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         courseViewModel.getAllCourses().observe(this, new Observer<List<Course>>() {
             @Override
             public void onChanged(List<Course> courses) {
-                Log.v(TAG, courses.get(0).getName());
 
                 final String[] names = courses.stream().map(Course::getName).toArray(String[]::new);
 

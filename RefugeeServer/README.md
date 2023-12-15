@@ -6,22 +6,21 @@ URL to connect to local machine: 10.0.2.2
 
 ### Anbieterseite
 
-[x][] Kurse sollen alle wichtigen Daten wie Name, Kurzbeschreibung, Termine, Ort, max. Teilnehmerzahl, Teilnahmevoraussetzungen etc. erfasst werden können.
-[x][] Übersicht über die aktuell eingeschriebenen Asylbewerbe
+[x][x] Kurse sollen alle wichtigen Daten wie Name, Kurzbeschreibung, Termine, Ort, max. Teilnehmerzahl, Teilnahmevoraussetzungen etc. erfasst werden können.
+[x][x] Übersicht über die aktuell eingeschriebenen Asylbewerbe
 
 ### Teilnehmerseite
 [][] Suchfunktion
-    [x][] Der Name oder die Beschreibung enthalten ein bestimmtes Stichwort.
+    [x][x] Der Name oder die Beschreibung enthalten ein bestimmtes Stichwort.
     [][] Der Kurs findet in einem bestimmten Umkreis um den aktuellen Standort statt.
     [][] Der Kurs findet in einem bestimmten Umkreis um einen bestimmten Ort statt.
 [][] Die Asylbewerber:innen können die Suchergebnisse nach Nähe zum aktuellen Standort sortieren
-[][] Asylbewerber:innen sollen sich an Kursen anmelden können. 
-    [x][] Per App
-    [x][] Per QrCode
+[x][x] Asylbewerber:innen sollen sich an Kursen anmelden können. 
+    [x][x] Per App
+    [x][x] Per QrCode
 
 ## libs
 http: https://square.github.io/okhttp/
-logging: timber
 
 
 https://betterprogramming.pub/create-an-app-that-uses-livedata-and-viewmodel-in-java-f8086ca94229
