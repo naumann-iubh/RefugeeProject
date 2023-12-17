@@ -65,10 +65,10 @@ public class AddCourseActivity extends AppCompatActivity {
                                 new TimePickerDialog(AddCourseActivity.this, new TimePickerDialog.OnTimeSetListener() {
                                     @Override
                                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                        final String date = String.format(Locale.GERMAN, "%d-%d-%d %d:%d", dayOfMonth, (month + 1), year, hourOfDay, minute);
+                                        final String date = String.format(Locale.GERMAN, "%02d-%02d-%d %02d:%02d", dayOfMonth, (month + 1), year, hourOfDay, minute);
 
                                         dates.add(date);
-                                        binding.dateList.append(date +",");
+                                        binding.dateList.append(date +",\n");
                                     }
                                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
                             }
